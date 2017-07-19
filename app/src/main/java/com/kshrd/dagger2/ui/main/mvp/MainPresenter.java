@@ -25,10 +25,14 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements
 
     @Override
     public void findAllArticle() {
+        getMvpView().showLoading();
         interactor.findAllArticle(new CallbackWithList<Article>() {
             @Override
             public void onSuccess(List<Article> list) {
+
                 getMvpView().updateRecyclerView(list);
+                onComplete();
+
             }
 
             @Override
@@ -38,12 +42,12 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements
 
             @Override
             public void onError() {
-
+                onComplete();
             }
 
             @Override
             public void onComplete() {
-
+            getMvpView().hideLoading();
             }
         });
     }
